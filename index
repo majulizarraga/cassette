@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Feliz Primer Año</title>
+  
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Kalam:wght@400;700&family=Patrick+Hand&family=Special+Elite&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="notebook-bg min-h-screen flex flex-col items-center py-6 px-4 select-none overflow-x-hidden text-stone-800">
+
+  <!-- Título tipo collage con recortes de papel -->
+  <header class="w-full max-w-sm mb-6 flex flex-col items-center">
+    <div class="flex flex-wrap justify-center items-center gap-1.5 px-2">
+      <span class="paper-letter bg-[#F7C5B8] rotate-[-2deg]">F</span>
+      <span class="paper-letter bg-[#FCE5A4] rotate-[3deg]">E</span>
+      <span class="paper-letter bg-[#B8D5C8] rotate-[-1deg]">L</span>
+      <span class="paper-letter bg-[#BDD8E9] rotate-[2deg]">I</span>
+      <span class="paper-letter bg-[#EABCC6] rotate-[-3deg]">Z</span>
+      <span class="w-2"></span>
+      <span class="paper-letter bg-[#D6C7E2] rotate-[1deg]">P</span>
+      <span class="paper-letter bg-[#F7C5B8] rotate-[-2deg]">R</span>
+      <span class="paper-letter bg-[#FCE5A4] rotate-[2deg]">I</span>
+      <span class="paper-letter bg-[#B8D5C8] rotate-[-3deg]">M</span>
+      <span class="paper-letter bg-[#BDD8E9] rotate-[1deg]">E</span>
+      <span class="paper-letter bg-[#EABCC6] rotate-[-2deg]">R</span>
+      <span class="w-2"></span>
+      <span class="paper-letter bg-[#F7C5B8] rotate-[2deg]">A</span>
+      <span class="paper-letter bg-[#FCE5A4] rotate-[-1deg]">Ñ</span>
+      <span class="paper-letter bg-[#B8D5C8] rotate-[3deg]">O</span>
+    </div>
+  </header>
+
+  <main class="w-full max-w-sm flex flex-col items-center space-y-6">
+
+    <!-- 1. NOTA / MENSAJE PERSONAL (Antes del cassette) -->
+    <section class="w-full relative px-2">
+      <div class="washi washi-green -top-2 left-6"></div>
+      <div class="washi washi-peach -bottom-2 right-6"></div>
+
+      <div class="note-grid p-6 pt-7 rounded-sm shadow-md border border-stone-200/80 rotate-[-0.5deg]">
+        <div class="flex justify-between items-center mb-2 pb-1 border-b border-stone-200">
+          <span id="trackBadge" class="text-xs font-mono font-bold tracking-widest text-stone-500 uppercase">CINTA #1</span>
+          <span class="text-xs font-mono text-stone-400">SIDE A</span>
+        </div>
+        
+        <p id="noteText" class="font-hand text-xl text-stone-800 leading-relaxed min-h-[70px]">
+          Cargando tu nota...
+        </p>
+
+        <div class="mt-3 pt-2 text-right">
+          <span id="noteSign" class="font-kalam text-lg text-stone-700 italic">Con amor</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. CASSETTE INTERACTIVO CON SWIPE -->
+    <section class="w-full relative px-1 py-1">
+      
+      <!-- Flechas sutiles de navegación -->
+      <button id="prevBtn" aria-label="Anterior" class="absolute left-[-8px] top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/80 border border-stone-300 shadow-sm flex items-center justify-center text-stone-600 hover:bg-white active:scale-90 transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+
+      <button id="nextBtn" aria-label="Siguiente" class="absolute right-[-8px] top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/80 border border-stone-300 shadow-sm flex items-center justify-center text-stone-600 hover:bg-white active:scale-90 transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </button>
+
+      <!-- Contenedor del Cassette -->
+      <div id="swipeArea" class="cursor-pointer transition-transform duration-200 ease-out active:scale-[0.98]">
+        <div id="cassetteBody" class="cassette-shell w-full rounded-2xl p-4 shadow-xl border-2 border-stone-700 relative overflow-hidden transition-colors duration-500">
+          
+          <div class="cassette-screws">
+            <span class="screw top-2 left-2"></span>
+            <span class="screw top-2 right-2"></span>
+            <span class="screw bottom-2 left-2"></span>
+            <span class="screw bottom-2 right-2"></span>
+          </div>
+
+          <!-- Etiqueta del Cassette -->
+          <div id="cassetteLabel" class="w-full rounded-lg p-3 shadow-inner border border-stone-400 relative transition-colors duration-500">
+            
+            <div class="flex justify-between items-center text-stone-800 text-xs font-mono font-bold border-b border-stone-300 pb-1 mb-2">
+              <span class="px-1.5 py-0.5 rounded bg-white/60 border border-stone-300">LADO A</span>
+              <span class="tracking-widest font-semibold text-stone-600">STEREO SM-11</span>
+              <span class="text-[10px] text-stone-500">MIXTAPE</span>
+            </div>
+
+            <!-- Título y Artista -->
+            <div class="text-center px-2 py-0.5">
+              <div id="songTitle" class="font-kalam font-bold text-xl text-stone-900 leading-tight truncate">Cargando...</div>
+              <div id="songArtist" class="font-hand text-base text-stone-700 truncate">Artista</div>
+            </div>
+
+            <!-- Ventana central & Engranajes -->
+            <div class="mt-2.5 bg-stone-900/90 rounded-md p-2 flex items-center justify-around border-2 border-stone-700 relative shadow-inner">
+              
+              <!-- Engranaje Izquierdo -->
+              <div class="w-10 h-10 rounded-full bg-white border-2 border-stone-400 flex items-center justify-center relative shadow">
+                <div class="tape-gear w-8 h-8 rounded-full border border-dashed border-stone-600 flex items-center justify-center">
+                  <div class="w-3 h-3 bg-stone-900 rounded-full"></div>
+                </div>
+              </div>
+
+              <!-- Ventanilla con cinta magnética -->
+              <div class="w-20 h-6 bg-amber-950/70 rounded border border-stone-600 flex items-center justify-center overflow-hidden relative">
+                <div id="tapeRoll" class="w-full h-2 bg-gradient-to-r from-amber-900 via-amber-800 to-amber-950 opacity-90"></div>
+                <div id="statusDot" class="absolute w-2 h-2 rounded-full bg-stone-400"></div>
+              </div>
+
+              <!-- Engranaje Derecho -->
+              <div class="w-10 h-10 rounded-full bg-white border-2 border-stone-400 flex items-center justify-center relative shadow">
+                <div class="tape-gear w-8 h-8 rounded-full border border-dashed border-stone-600 flex items-center justify-center">
+                  <div class="w-3 h-3 bg-stone-900 rounded-full"></div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Barra de progreso sutil -->
+            <div class="w-full bg-stone-300/80 rounded-full h-1 mt-2.5 overflow-hidden">
+              <div id="progressBar" class="bg-stone-700 h-full w-0 transition-all duration-200"></div>
+            </div>
+
+          </div>
+
+          <div class="w-28 h-2.5 mx-auto mt-2 bg-stone-800/40 rounded-full"></div>
+        </div>
+      </div>
+
+      <div class="text-center mt-2">
+        <span class="text-[11px] font-mono text-stone-500 uppercase tracking-widest">Toca para reproducir • Desliza para cambiar</span>
+      </div>
+    </section>
+
+    <!-- 3. LYRICS (Directo en tarjeta vintage) -->
+    <section class="w-full px-2">
+      <div class="bg-[#FFFDF9] rounded-sm p-5 shadow-sm border border-stone-300 relative rotate-[0.3deg]">
+        <div class="washi washi-lavender -top-2 left-1/2 -translate-x-1/2"></div>
+        
+        <div id="songLyrics" class="font-special text-stone-700 text-sm sm:text-base leading-relaxed whitespace-pre-line text-center italic">
+          "Cargando letra..."
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. REDIRECCIÓN A SPOTIFY -->
+    <section class="w-full px-2 pt-1 flex justify-center">
+      <a id="spotifyLink" href="#" target="_blank" rel="noopener noreferrer" 
+         class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1DB954] hover:bg-[#1aa34a] text-white font-mono text-xs uppercase tracking-wider font-bold rounded-full shadow-md transition active:scale-95">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+        </svg>
+        <span>Abrir en Spotify</span>
+      </a>
+    </section>
+
+  </main>
+
+  <!-- Elemento de audio nativo -->
+  <audio id="audioPlayer" preload="auto"></audio>
+
+  <!-- Scripts -->
+  <script src="js/songs.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
