@@ -1,3 +1,12 @@
+/* Fuente Argyle Socks para el título collage */
+@font-face {
+  font-family: 'Argyle Socks';
+  src: url('https://fonts.cdnfonts.com/s/94917/ArgyleSocks.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Renglones celeste pastel estilo cuaderno */
 .notebook-bg {
   background-color: #FAF8F5;
@@ -10,19 +19,19 @@
 }
 
 /* Tipografías */
+.font-architects { font-family: 'Architects Daughter', cursive; }
 .font-hand { font-family: 'Patrick Hand', cursive; }
 .font-kalam { font-family: 'Kalam', cursive; }
 .font-special { font-family: 'Special Elite', monospace; }
 
-/* Letras recortadas de papel con la nueva tipografía Kalam */
+/* Letras recortadas de papel con la fuente Argyle Socks */
 .paper-letter {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 25px;
-  height: 31px;
-  font-family: 'Kalam', cursive;
-  font-weight: 700;
+  height: 32px;
+  font-family: 'Argyle Socks', 'Kalam', cursive;
   font-size: 1.15rem;
   color: #2D3748;
   border-radius: 3px;
@@ -68,7 +77,7 @@
   box-shadow: inset 0 1px 1px rgba(0,0,0,0.4);
 }
 
-/* Puntos de carrusel estilo Instagram */
+/* Puntos de carrusel */
 .carousel-dot {
   width: 6px;
   height: 6px;
