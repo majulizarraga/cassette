@@ -9,32 +9,32 @@
   background-size: 100% 28px;
 }
 
-/* Tipografías personalizadas */
+/* Tipografías */
 .font-hand { font-family: 'Patrick Hand', cursive; }
 .font-kalam { font-family: 'Kalam', cursive; }
 .font-special { font-family: 'Special Elite', monospace; }
 
-/* Letras recortadas de papel */
+/* Letras recortadas de papel con la nueva tipografía Kalam */
 .paper-letter {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 32px;
-  font-family: 'Special Elite', monospace;
+  width: 25px;
+  height: 31px;
+  font-family: 'Kalam', cursive;
   font-weight: 700;
   font-size: 1.15rem;
   color: #2D3748;
-  border-radius: 2px;
+  border-radius: 3px;
   box-shadow: 1px 2px 4px rgba(0,0,0,0.12);
   border: 1px solid rgba(0,0,0,0.08);
 }
 
-/* Washi tapes semitransparentes */
+/* Washi tapes */
 .washi {
   position: absolute;
-  width: 70px;
-  height: 18px;
+  width: 65px;
+  height: 16px;
   opacity: 0.85;
   box-shadow: 0 1px 2px rgba(0,0,0,0.08);
   z-index: 10;
@@ -53,22 +53,37 @@
   background-size: 16px 16px;
 }
 
-/* Detalles y tornillos del cassette */
+/* Detalles del cassette */
 .cassette-shell {
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.18), 0 6px 8px -6px rgba(0, 0, 0, 0.1);
 }
 
 .screw {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #C4C4C4;
   border: 1px solid #78716C;
   box-shadow: inset 0 1px 1px rgba(0,0,0,0.4);
 }
 
-/* Animación de rotación de las bobinas */
+/* Puntos de carrusel estilo Instagram */
+.carousel-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #D6D3D1;
+  transition: all 0.25s ease;
+}
+
+.carousel-dot.active {
+  width: 8px;
+  height: 8px;
+  background-color: #57534E;
+}
+
+/* Rotación de bobinas */
 @keyframes spinGear {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
