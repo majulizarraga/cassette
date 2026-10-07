@@ -21,9 +21,7 @@
       
       <!-- Cartita flotante con corazón rojo -->
       <div id="envelopeCard" class="envelope-floating relative w-28 h-20 bg-[#F4EBE1] border-2 border-stone-400 rounded-lg shadow-xl flex items-center justify-center mb-6">
-        <!-- Solapa triangular superior -->
         <div class="envelope-flap"></div>
-        <!-- Corazón rojo central (estilo emoji) -->
         <div class="relative z-10 w-9 h-9 rounded-full bg-white/90 border border-stone-300 shadow-sm flex items-center justify-center">
           <svg class="w-5 h-5 text-red-500 fill-current animate-pulse" viewBox="0 0 24 24">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -51,7 +49,6 @@
           <input type="tel" maxlength="1" class="pin-digit" data-idx="5" inputmode="numeric">
         </div>
 
-        <!-- Mensaje de error progresivo -->
         <p id="pinFeedback" class="font-jakarta text-xs text-rose-500 font-medium min-h-[18px] transition-all">
           &nbsp;
         </p>
@@ -92,7 +89,7 @@
 
   <main class="w-full max-w-sm flex flex-col items-center space-y-5">
 
-    <!-- 1. LYRICS (Altura constante de 4 líneas) -->
+    <!-- 1. LYRICS -->
     <section class="w-full px-2">
       <div class="bg-[#FFFDF9] rounded-sm p-4 shadow-sm border border-stone-300 relative rotate-[0.3deg] h-[108px] flex items-center justify-center">
         <div class="washi washi-lavender -top-2 left-1/2 -translate-x-1/2"></div>
@@ -102,8 +99,8 @@
       </div>
     </section>
 
-    <!-- 2. CASSETTE 3D CON ROTACIÓN ESPACIAL Y PROFUNDIDAD -->
-    <section class="w-full relative px-6 py-2 flex flex-col items-center cassette-perspective">
+    <!-- 2. CASSETTE (ESTILO ORIGINAL 2D SCRAPBOOK) -->
+    <section class="w-full relative px-6 py-1 flex flex-col items-center">
       
       <button id="prevBtn" aria-label="Anterior" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/90 border border-stone-300 shadow flex items-center justify-center text-stone-600 hover:bg-white active:scale-90 transition">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
@@ -113,9 +110,9 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
       </button>
 
-      <!-- Contenedor 3D -->
-      <div id="swipeArea" class="w-full max-w-[295px] cursor-pointer touch-pan-y cassette-3d-wrap">
-        <div id="cassetteBody" class="cassette-shell-3d w-full rounded-2xl p-3 relative overflow-hidden transition-colors duration-500">
+      <!-- Cassette clásico con bordes nítidos -->
+      <div id="swipeArea" class="w-full max-w-[295px] cursor-pointer touch-pan-y">
+        <div id="cassetteBody" class="cassette-shell w-full rounded-2xl p-3 shadow-xl border-2 border-stone-700 relative overflow-hidden transition-colors duration-500">
           
           <div class="cassette-screws">
             <span class="screw top-1.5 left-1.5"></span>
@@ -124,7 +121,7 @@
             <span class="screw bottom-1.5 right-1.5"></span>
           </div>
 
-          <!-- Etiqueta con hendidura -->
+          <!-- Etiqueta del Cassette -->
           <div id="cassetteLabel" class="w-full rounded-lg p-2.5 shadow-inner border border-stone-400 relative transition-colors duration-500">
             
             <div class="flex justify-between items-center text-stone-800 text-[11px] font-mono font-bold border-b border-stone-300 pb-1 mb-1.5">
@@ -139,8 +136,8 @@
               <div id="songArtist" class="font-patrick text-[18px] text-stone-700 leading-none truncate mt-0.5">Harry Styles</div>
             </div>
 
-            <!-- Bobinas 3D -->
-            <div class="mt-2.5 bg-stone-950 rounded-md p-1.5 flex items-center justify-around border-2 border-stone-700 relative shadow-inner">
+            <!-- Bobinas y engranajes -->
+            <div class="mt-2.5 bg-stone-900/90 rounded-md p-1.5 flex items-center justify-around border-2 border-stone-700 relative shadow-inner">
               
               <div class="w-8 h-8 rounded-full bg-white border border-stone-400 flex items-center justify-center relative shadow">
                 <div class="tape-gear w-6 h-6 rounded-full border border-dashed border-stone-600 flex items-center justify-center">
@@ -148,7 +145,7 @@
                 </div>
               </div>
 
-              <div class="w-16 h-5 bg-amber-950/80 rounded border border-stone-600 flex items-center justify-center overflow-hidden relative shadow-inner">
+              <div class="w-16 h-5 bg-amber-950/70 rounded border border-stone-600 flex items-center justify-center overflow-hidden relative">
                 <div id="tapeRoll" class="w-full h-1.5 bg-gradient-to-r from-amber-900 via-amber-800 to-amber-950 opacity-90"></div>
                 <div id="statusDot" class="absolute w-1.5 h-1.5 rounded-full bg-stone-400"></div>
               </div>
@@ -168,8 +165,7 @@
 
           </div>
 
-          <!-- Borde biselado inferior -->
-          <div class="w-24 h-2 mx-auto mt-2 bg-stone-900/50 rounded-full border-t border-black/20"></div>
+          <div class="w-24 h-2 mx-auto mt-1.5 bg-stone-800/40 rounded-full"></div>
         </div>
       </div>
 
@@ -177,7 +173,7 @@
       <div id="carouselDots" class="flex items-center justify-center gap-1.5 mt-3"></div>
     </section>
 
-    <!-- 3. DEDICATORIA (Plus Jakarta Sans) -->
+    <!-- 3. DEDICATORIA -->
     <section class="w-full relative px-2">
       <div class="washi washi-green -top-2 left-6"></div>
       <div class="washi washi-peach -bottom-2 right-6"></div>
@@ -202,7 +198,7 @@
 
   </main>
 
-  <!-- 5. PIE DE NOTA (Con tipografía Plus Jakarta Sans unificada) -->
+  <!-- 5. PIE DE NOTA -->
   <footer class="mt-8 text-center">
     <p class="font-jakarta text-xs text-stone-600/80 tracking-wide font-medium">
       con amor, maju
