@@ -9,26 +9,25 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Kalam:wght@700&family=Patrick+Hand&family=Special+Elite&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Kalam:wght@700&family=Patrick+Hand&family=Special+Elite&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="notebook-bg min-h-screen flex flex-col items-center py-6 px-3 select-none overflow-x-hidden text-stone-800">
+<body class="notebook-bg min-h-screen flex flex-col items-center pt-12 pb-8 px-3 select-none overflow-x-hidden text-stone-800">
 
-  <!-- Título tipo collage: Agrupado por palabras para que no se corte feo en móviles -->
-  <header class="w-full max-w-sm mb-5 flex flex-col items-center">
-    <div class="flex flex-wrap justify-center items-center gap-x-2 gap-y-2 px-1">
-      
-      <!-- FELIZ -->
-      <div class="flex items-center gap-1 flex-nowrap">
-        <span class="paper-letter bg-[#F7C5B8] rotate-[-2deg]">F</span>
-        <span class="paper-letter bg-[#FCE5A4] rotate-[3deg]">E</span>
-        <span class="paper-letter bg-[#B8D5C8] rotate-[-1deg]">L</span>
-        <span class="paper-letter bg-[#BDD8E9] rotate-[2deg]">I</span>
-        <span class="paper-letter bg-[#EABCC6] rotate-[-3deg]">Z</span>
-      </div>
+  <!-- Título tipo collage en 2 líneas -->
+  <header class="w-full max-w-sm mb-6 flex flex-col items-center space-y-2">
+    <!-- Línea 1: FELIZ -->
+    <div class="flex items-center justify-center gap-1.5 flex-nowrap">
+      <span class="paper-letter bg-[#F7C5B8] rotate-[-2deg]">F</span>
+      <span class="paper-letter bg-[#FCE5A4] rotate-[3deg]">E</span>
+      <span class="paper-letter bg-[#B8D5C8] rotate-[-1deg]">L</span>
+      <span class="paper-letter bg-[#BDD8E9] rotate-[2deg]">I</span>
+      <span class="paper-letter bg-[#EABCC6] rotate-[-3deg]">Z</span>
+    </div>
 
-      <!-- PRIMER -->
+    <!-- Línea 2: PRIMER AÑO -->
+    <div class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
       <div class="flex items-center gap-1 flex-nowrap">
         <span class="paper-letter bg-[#D6C7E2] rotate-[1deg]">P</span>
         <span class="paper-letter bg-[#F7C5B8] rotate-[-2deg]">R</span>
@@ -37,34 +36,31 @@
         <span class="paper-letter bg-[#BDD8E9] rotate-[1deg]">E</span>
         <span class="paper-letter bg-[#EABCC6] rotate-[-2deg]">R</span>
       </div>
-
-      <!-- AÑO -->
       <div class="flex items-center gap-1 flex-nowrap">
         <span class="paper-letter bg-[#F7C5B8] rotate-[2deg]">A</span>
         <span class="paper-letter bg-[#FCE5A4] rotate-[-1deg]">Ñ</span>
         <span class="paper-letter bg-[#B8D5C8] rotate-[3deg]">O</span>
       </div>
-
     </div>
   </header>
 
   <main class="w-full max-w-sm flex flex-col items-center space-y-5">
 
-    <!-- 1. LYRICS (Ahora va ANTES del cassette y sin cursiva) -->
+    <!-- 1. LYRICS (Altura fija para 4 líneas: nunca mueve el cassette de lugar) -->
     <section class="w-full px-2">
-      <div class="bg-[#FFFDF9] rounded-sm p-4 shadow-sm border border-stone-300 relative rotate-[0.3deg]">
+      <div class="bg-[#FFFDF9] rounded-sm p-4 shadow-sm border border-stone-300 relative rotate-[0.3deg] h-[108px] flex items-center justify-center">
         <div class="washi washi-lavender -top-2 left-1/2 -translate-x-1/2"></div>
         
-        <div id="songLyrics" class="font-special not-italic text-stone-700 text-sm leading-relaxed whitespace-pre-line text-center">
+        <div id="songLyrics" class="font-special not-italic text-stone-700 text-[13px] sm:text-sm leading-relaxed whitespace-pre-line text-center">
           "Cargando letra..."
         </div>
       </div>
     </section>
 
-    <!-- 2. CASSETTE INTERACTIVO (Más compacto para no chocar con las flechas) -->
+    <!-- 2. CASSETTE INTERACTIVO -->
     <section class="w-full relative px-6 py-1 flex flex-col items-center">
       
-      <!-- Flechas de navegación a los costados -->
+      <!-- Flechas laterales -->
       <button id="prevBtn" aria-label="Anterior" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/90 border border-stone-300 shadow flex items-center justify-center text-stone-600 hover:bg-white active:scale-90 transition">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
       </button>
@@ -73,7 +69,7 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
       </button>
 
-      <!-- Cassette más compacto -->
+      <!-- Cassette -->
       <div id="swipeArea" class="w-full max-w-[295px] cursor-pointer transition-transform duration-200 ease-out active:scale-[0.98]">
         <div id="cassetteBody" class="cassette-shell w-full rounded-2xl p-3 shadow-xl border-2 border-stone-700 relative overflow-hidden transition-colors duration-500">
           
@@ -99,23 +95,20 @@
               <div id="songArtist" class="font-hand text-sm text-stone-700 truncate">Artista</div>
             </div>
 
-            <!-- Ventana central & Engranajes -->
+            <!-- Bobinas y engranajes -->
             <div class="mt-2 bg-stone-900/90 rounded-md p-1.5 flex items-center justify-around border-2 border-stone-700 relative shadow-inner">
               
-              <!-- Engranaje Izquierdo -->
               <div class="w-8 h-8 rounded-full bg-white border border-stone-400 flex items-center justify-center relative shadow">
                 <div class="tape-gear w-6 h-6 rounded-full border border-dashed border-stone-600 flex items-center justify-center">
                   <div class="w-2.5 h-2.5 bg-stone-900 rounded-full"></div>
                 </div>
               </div>
 
-              <!-- Ventana magnética central -->
               <div class="w-16 h-5 bg-amber-950/70 rounded border border-stone-600 flex items-center justify-center overflow-hidden relative">
                 <div id="tapeRoll" class="w-full h-1.5 bg-gradient-to-r from-amber-900 via-amber-800 to-amber-950 opacity-90"></div>
                 <div id="statusDot" class="absolute w-1.5 h-1.5 rounded-full bg-stone-400"></div>
               </div>
 
-              <!-- Engranaje Derecho -->
               <div class="w-8 h-8 rounded-full bg-white border border-stone-400 flex items-center justify-center relative shadow">
                 <div class="tape-gear w-6 h-6 rounded-full border border-dashed border-stone-600 flex items-center justify-center">
                   <div class="w-2.5 h-2.5 bg-stone-900 rounded-full"></div>
@@ -135,25 +128,19 @@
         </div>
       </div>
 
-      <!-- 5. PUNTOS TIPO CARRUSEL DE INSTAGRAM (12 tracks) -->
-      <div id="carouselDots" class="flex items-center justify-center gap-1.5 mt-3">
-        <!-- Los 12 puntos se generan dinámicamente con JS -->
-      </div>
+      <!-- Puntos de carrusel -->
+      <div id="carouselDots" class="flex items-center justify-center gap-1.5 mt-3"></div>
     </section>
 
-    <!-- 3. DEDICATORIA (Ahora va DESPUÉS del cassette y sin 'cinta #2') -->
+    <!-- 3. DEDICATORIA (Con font Architects Daughter y sin firmas) -->
     <section class="w-full relative px-2">
       <div class="washi washi-green -top-2 left-6"></div>
       <div class="washi washi-peach -bottom-2 right-6"></div>
 
-      <div class="note-grid p-5 pt-6 rounded-sm shadow-md border border-stone-200/80 rotate-[-0.5deg]">
-        <p id="noteText" class="font-hand text-xl text-stone-800 leading-relaxed min-h-[65px]">
+      <div class="note-grid p-5 py-6 rounded-sm shadow-md border border-stone-200/80 rotate-[-0.5deg]">
+        <p id="noteText" class="font-architects text-[15px] sm:text-base text-stone-800 leading-relaxed text-center min-h-[60px] flex items-center justify-center">
           Cargando tu nota...
         </p>
-
-        <div class="mt-2 text-right">
-          <span id="noteSign" class="font-kalam text-lg text-stone-700 italic">Con amor</span>
-        </div>
       </div>
     </section>
 
@@ -169,6 +156,13 @@
     </section>
 
   </main>
+
+  <!-- 5. PIE DE NOTA DISCRETO -->
+  <footer class="mt-8 text-center">
+    <p class="font-architects text-xs text-stone-600/80 tracking-wide">
+      con amor, maju
+    </p>
+  </footer>
 
   <audio id="audioPlayer" preload="auto"></audio>
 
