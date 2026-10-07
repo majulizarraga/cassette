@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const cassetteLabel = document.getElementById("cassetteLabel");
   const swipeArea = document.getElementById("swipeArea");
   
-  const trackBadge = document.getElementById("trackBadge");
   const noteText = document.getElementById("noteText");
   const noteSign = document.getElementById("noteSign");
   const songTitle = document.getElementById("songTitle");
@@ -17,9 +16,34 @@ document.addEventListener("DOMContentLoaded", () => {
   const spotifyLink = document.getElementById("spotifyLink");
   const progressBar = document.getElementById("progressBar");
   const statusDot = document.getElementById("statusDot");
+  const carouselDotsContainer = document.getElementById("carouselDots");
 
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
+
+  // Crear los 12 puntos del carrusel tipo Instagram
+  function initDots() {
+    carouselDotsContainer.innerHTML = "";
+    cassetteCollection.forEach((_, idx) => {
+      const dot = document.createElement("button");
+      dot.className = `carousel-dot ${idx === currentIndex ? "active" : ""}`;
+      dot.setAttribute("aria-label", `Pista ${idx + 1}`);
+      dot.addEventListener("click", () => {
+        if (idx !== currentIndex) {
+          currentIndex = idx;
+          loadTrack(currentIndex);
+        }
+      });
+      carouselDotsContainer.appendChild(dot);
+    });
+  }
+
+  function updateDots() {
+    const dots = carouselDotsContainer.querySelectorAll(".carousel-dot");
+    dots.forEach((dot, idx) => {
+      dot.className = `carousel-dot ${idx === currentIndex ? "active" : ""}`;
+    });
+  }
 
   // Leer parámetro ?track=X de la URL (para cada NFC)
   const urlParams = new URLSearchParams(window.location.search);
@@ -38,10 +62,9 @@ document.addEventListener("DOMContentLoaded", () => {
     isPlaying = false;
     cassetteBody.classList.remove("spinning");
     progressBar.style.width = "0%";
-    statusDot.className = "absolute w-2 h-2 rounded-full bg-stone-400";
+    statusDot.className = "absolute w-1.5 h-1.5 rounded-full bg-stone-400";
 
     // Contenido
-    trackBadge.textContent = `CINTA #${track.id}`;
     noteText.textContent = track.note;
     noteSign.textContent = track.signature;
     songTitle.textContent = track.title;
@@ -55,6 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Asignar archivo de audio
     audioPlayer.src = track.audioUrl;
+
+    updateDots();
   }
 
   // Reproducir / Pausar
@@ -65,19 +90,19 @@ document.addEventListener("DOMContentLoaded", () => {
       audioPlayer.pause();
       isPlaying = false;
       cassetteBody.classList.remove("spinning");
-      statusDot.className = "absolute w-2 h-2 rounded-full bg-stone-400";
+      statusDot.className = "absolute w-1.5 h-1.5 rounded-full bg-stone-400";
     } else {
       audioPlayer.play().then(() => {
         isPlaying = true;
         cassetteBody.classList.add("spinning");
-        statusDot.className = "absolute w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
+        statusDot.className = "absolute w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse";
       }).catch(err => {
         console.warn("Autoplay prevenido o archivo no encontrado:", err);
       });
     }
   }
 
-  // Actualizar barra de progreso
+  // Barra de progreso
   audioPlayer.addEventListener("timeupdate", () => {
     if (audioPlayer.duration) {
       const pct = (audioPlayer.currentTime / audioPlayer.duration) * 100;
@@ -89,13 +114,13 @@ document.addEventListener("DOMContentLoaded", () => {
     isPlaying = false;
     cassetteBody.classList.remove("spinning");
     progressBar.style.width = "0%";
-    statusDot.className = "absolute w-2 h-2 rounded-full bg-stone-400";
+    statusDot.className = "absolute w-1.5 h-1.5 rounded-full bg-stone-400";
   });
 
   // Tocar cassette para reproducir
   swipeArea.addEventListener("click", togglePlay);
 
-  // Navegación siguiente / anterior
+  // Navegación
   function nextTrack() {
     currentIndex = (currentIndex + 1) % cassetteCollection.length;
     animateTransition("left", () => loadTrack(currentIndex));
@@ -111,21 +136,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Animación de deslizamiento
   function animateTransition(direction, callback) {
-    const offset = direction === "left" ? "-40px" : "40px";
-    swipeArea.style.transform = `translateX(${offset}) scale(0.95)`;
-    swipeArea.style.opacity = "0.4";
+    const offset = direction === "left" ? "-30px" : "30px";
+    swipeArea.style.transform = `translateX(${offset}) scale(0.96)`;
+    swipeArea.style.opacity = "0.5";
     
     setTimeout(() => {
       callback();
-      swipeArea.style.transform = `translateX(${direction === "left" ? "40px" : "-40px"}) scale(0.95)`;
+      swipeArea.style.transform = `translateX(${direction === "left" ? "30px" : "-30px"}) scale(0.96)`;
       setTimeout(() => {
         swipeArea.style.transform = "translateX(0) scale(1)";
         swipeArea.style.opacity = "1";
-      }, 50);
-    }, 150);
+      }, 40);
+    }, 120);
   }
 
-  // Soporte para gestos táctiles (Swipe en móvil)
+  // Gestos táctiles Swipe
   let touchStartX = 0;
   let touchEndX = 0;
 
@@ -140,15 +165,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function handleGesture() {
     const diff = touchEndX - touchStartX;
-    if (Math.abs(diff) > 45) { // umbral de deslizamiento
+    if (Math.abs(diff) > 40) {
       if (diff < 0) {
-        nextTrack(); // Swipe hacia la izquierda
+        nextTrack();
       } else {
-        prevTrack(); // Swipe hacia la derecha
+        prevTrack();
       }
     }
   }
 
-  // Carga inicial
+  // Inicializar
+  initDots();
   loadTrack(currentIndex);
 });
