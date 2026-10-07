@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
 
-  // Crear los 12 puntos tipo Instagram
+  // Crear los 12 puntos de carrusel
   function initDots() {
     carouselDotsContainer.innerHTML = "";
     cassetteCollection.forEach((_, idx) => {
@@ -29,8 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
       dot.setAttribute("aria-label", `Pista ${idx + 1}`);
       dot.addEventListener("click", () => {
         if (idx !== currentIndex) {
+          const dir = idx > currentIndex ? "left" : "right";
           currentIndex = idx;
-          loadTrack(currentIndex);
+          appleTransition(dir, () => loadTrack(currentIndex));
         }
       });
       carouselDotsContainer.appendChild(dot);
@@ -51,30 +52,26 @@ document.addEventListener("DOMContentLoaded", () => {
     currentIndex = trackParam - 1;
   }
 
-  // Cargar pista en la interfaz
+  // Cargar pista
   function loadTrack(index) {
     const track = cassetteCollection[index];
     if (!track) return;
 
-    // Pausar si estaba reproduciendo
     audioPlayer.pause();
     isPlaying = false;
     cassetteBody.classList.remove("spinning");
     progressBar.style.width = "0%";
     statusDot.className = "absolute w-1.5 h-1.5 rounded-full bg-stone-400";
 
-    // Contenido
     noteText.textContent = track.note;
     songTitle.textContent = track.title;
     songArtist.textContent = track.artist;
     songLyrics.textContent = `"${track.lyrics}"`;
     spotifyLink.href = track.spotifyUrl;
 
-    // Colores
     cassetteBody.style.backgroundColor = track.colors.shell;
     cassetteLabel.style.backgroundColor = track.colors.label;
 
-    // Audio
     audioPlayer.src = track.audioUrl;
 
     updateDots();
@@ -100,7 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Barra de progreso
   audioPlayer.addEventListener("timeupdate", () => {
     if (audioPlayer.duration) {
       const pct = (audioPlayer.currentTime / audioPlayer.duration) * 100;
@@ -115,64 +111,99 @@ document.addEventListener("DOMContentLoaded", () => {
     statusDot.className = "absolute w-1.5 h-1.5 rounded-full bg-stone-400";
   });
 
-  // Evento clic en cassette
-  swipeArea.addEventListener("click", togglePlay);
+  // Transición inspirada en Apple: Spring fluid + fade
+  function appleTransition(direction, callback) {
+    swipeArea.classList.add("apple-spring");
+    const exitX = direction === "left" ? -120 : 120;
+    const rotate = direction === "left" ? -5 : 5;
+    
+    swipeArea.style.transform = `translateX(${exitX}px) rotate(${rotate}deg) scale(0.92)`;
+    swipeArea.style.opacity = "0";
 
-  // Navegación
+    setTimeout(() => {
+      callback();
+      // Entrada desde el lado opuesto
+      swipeArea.classList.remove("apple-spring");
+      const enterX = direction === "left" ? 100 : -100;
+      swipeArea.style.transform = `translateX(${enterX}px) rotate(${-rotate}deg) scale(0.94)`;
+      swipeArea.style.opacity = "0";
+
+      requestAnimationFrame(() => {
+        swipeArea.classList.add("apple-spring");
+        swipeArea.style.transform = "translateX(0) rotate(0deg) scale(1)";
+        swipeArea.style.opacity = "1";
+      });
+    }, 180);
+  }
+
   function nextTrack() {
     currentIndex = (currentIndex + 1) % cassetteCollection.length;
-    animateTransition("left", () => loadTrack(currentIndex));
+    appleTransition("left", () => loadTrack(currentIndex));
   }
 
   function prevTrack() {
     currentIndex = (currentIndex - 1 + cassetteCollection.length) % cassetteCollection.length;
-    animateTransition("right", () => loadTrack(currentIndex));
+    appleTransition("right", () => loadTrack(currentIndex));
   }
 
   nextBtn.addEventListener("click", nextTrack);
   prevBtn.addEventListener("click", prevTrack);
 
-  // Animación de cambio
-  function animateTransition(direction, callback) {
-    const offset = direction === "left" ? "-30px" : "30px";
-    swipeArea.style.transform = `translateX(${offset}) scale(0.96)`;
-    swipeArea.style.opacity = "0.5";
-    
-    setTimeout(() => {
-      callback();
-      swipeArea.style.transform = `translateX(${direction === "left" ? "30px" : "-30px"}) scale(0.96)`;
-      setTimeout(() => {
-        swipeArea.style.transform = "translateX(0) scale(1)";
-        swipeArea.style.opacity = "1";
-      }, 40);
-    }, 120);
-  }
-
-  // Soporte para gestos táctiles Swipe en móvil
-  let touchStartX = 0;
-  let touchEndX = 0;
+  // Gesto táctil interactivo con física continua (Apple HIG)
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
 
   swipeArea.addEventListener("touchstart", (e) => {
-    touchStartX = e.changedTouches[0].screenX;
+    startX = e.touches[0].clientX;
+    currentX = startX;
+    isDragging = true;
+    swipeArea.classList.remove("apple-spring");
   }, { passive: true });
 
-  swipeArea.addEventListener("touchend", (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleGesture();
+  swipeArea.addEventListener("touchmove", (e) => {
+    if (!isDragging) return;
+    currentX = e.touches[0].clientX;
+    const deltaX = currentX - startX;
+    // Arrastre con resistencia natural
+    const rotate = deltaX * 0.04;
+    swipeArea.style.transform = `translateX(${deltaX * 0.75}px) rotate(${rotate}deg) scale(${1 - Math.abs(deltaX) * 0.0004})`;
   }, { passive: true });
 
-  function handleGesture() {
-    const diff = touchEndX - touchStartX;
-    if (Math.abs(diff) > 40) {
-      if (diff < 0) {
-        nextTrack();
-      } else {
-        prevTrack();
-      }
+  swipeArea.addEventListener("touchend", () => {
+    if (!isDragging) return;
+    isDragging = false;
+    const deltaX = currentX - startX;
+
+    // Si fue un simple tap sin arrastrar, reproducir
+    if (Math.abs(deltaX) < 8) {
+      swipeArea.classList.add("apple-spring");
+      swipeArea.style.transform = "translateX(0) rotate(0deg) scale(1)";
+      togglePlay();
+      return;
     }
-  }
 
-  // Inicialización
+    // Si supera el umbral de arrastre, pasar pista
+    if (deltaX < -50) {
+      nextTrack();
+    } else if (deltaX > 50) {
+      prevTrack();
+    } else {
+      // Regresar elásticamente a su posición original
+      swipeArea.classList.add("apple-spring");
+      swipeArea.style.transform = "translateX(0) rotate(0deg) scale(1)";
+    }
+  });
+
+  // Clic de ratón en escritorio
+  swipeArea.addEventListener("click", (e) => {
+    // Si no es táctil, togglePlay normal
+    if (!('ontouchstart' in window)) {
+      togglePlay();
+    }
+  });
+
+  // Inicio
   initDots();
   loadTrack(currentIndex);
 });
