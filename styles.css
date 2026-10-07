@@ -24,14 +24,14 @@
 .font-kalam { font-family: 'Kalam', cursive; }
 .font-special { font-family: 'Special Elite', monospace; }
 
-/* Letras recortadas de papel con la fuente Argyle Socks */
+/* Letras recortadas de papel con estilo retro grueso */
 .paper-letter {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 25px;
-  height: 32px;
-  font-family: 'Argyle Socks', 'Kalam', cursive;
+  width: 26px;
+  height: 33px;
+  font-family: 'Shrikhand', cursive, sans-serif;
   font-size: 1.15rem;
   color: #2D3748;
   border-radius: 3px;
