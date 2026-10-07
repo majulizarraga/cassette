@@ -9,14 +9,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Patrick+Hand&family=Special+Elite&family=Shrikhand&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Lilita+One&family=Patrick+Hand&family=Plus+Jakarta+Sans:wght@400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="notebook-bg min-h-screen flex flex-col items-center pt-12 pb-8 px-3 select-none overflow-x-hidden text-stone-800">
+<body class="notebook-bg min-h-screen flex flex-col items-center pt-10 pb-8 px-3 select-none overflow-x-hidden text-stone-800">
 
   <!-- Título tipo collage en 2 líneas -->
-  <header class="w-full max-w-sm mb-6 flex flex-col items-center space-y-2">
+  <header class="w-full max-w-sm mb-6 flex flex-col items-center space-y-2.5">
     <!-- Línea 1: FELIZ -->
     <div class="flex items-center justify-center gap-1.5 flex-nowrap">
       <span class="paper-letter bg-[#F7C5B8] rotate-[-2deg]">F</span>
@@ -26,8 +26,9 @@
       <span class="paper-letter bg-[#EABCC6] rotate-[-3deg]">Z</span>
     </div>
 
-    <!-- Línea 2: PRIMER AÑO -->
-    <div class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+    <!-- Línea 2: PRIMER [separador] AÑO -->
+    <div class="flex items-center justify-center gap-1 flex-nowrap">
+      <!-- PRIMER -->
       <div class="flex items-center gap-1 flex-nowrap">
         <span class="paper-letter bg-[#D6C7E2] rotate-[1deg]">P</span>
         <span class="paper-letter bg-[#F7C5B8] rotate-[-2deg]">R</span>
@@ -36,6 +37,11 @@
         <span class="paper-letter bg-[#BDD8E9] rotate-[1deg]">E</span>
         <span class="paper-letter bg-[#EABCC6] rotate-[-2deg]">R</span>
       </div>
+
+      <!-- Espacio visible entre PRIMER y AÑO -->
+      <div class="w-3.5"></div>
+
+      <!-- AÑO -->
       <div class="flex items-center gap-1 flex-nowrap">
         <span class="paper-letter bg-[#F7C5B8] rotate-[2deg]">A</span>
         <span class="paper-letter bg-[#FCE5A4] rotate-[-1deg]">Ñ</span>
@@ -46,7 +52,7 @@
 
   <main class="w-full max-w-sm flex flex-col items-center space-y-5">
 
-    <!-- 1. LYRICS (Altura fija para 4 líneas: nunca mueve el cassette de lugar) -->
+    <!-- 1. LYRICS (Altura fija para 4 líneas sin desfasar el cassette) -->
     <section class="w-full px-2">
       <div class="bg-[#FFFDF9] rounded-sm p-4 shadow-sm border border-stone-300 relative rotate-[0.3deg] h-[108px] flex items-center justify-center">
         <div class="washi washi-lavender -top-2 left-1/2 -translate-x-1/2"></div>
@@ -57,10 +63,10 @@
       </div>
     </section>
 
-    <!-- 2. CASSETTE INTERACTIVO -->
+    <!-- 2. CASSETTE INTERACTIVO (Con física de arrastre iOS) -->
     <section class="w-full relative px-6 py-1 flex flex-col items-center">
       
-      <!-- Flechas laterales -->
+      <!-- Flechas laterales de apoyo -->
       <button id="prevBtn" aria-label="Anterior" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/90 border border-stone-300 shadow flex items-center justify-center text-stone-600 hover:bg-white active:scale-90 transition">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
       </button>
@@ -69,8 +75,8 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
       </button>
 
-      <!-- Cassette -->
-      <div id="swipeArea" class="w-full max-w-[295px] cursor-pointer transition-transform duration-200 ease-out active:scale-[0.98]">
+      <!-- Contenedor del Cassette -->
+      <div id="swipeArea" class="w-full max-w-[295px] cursor-pointer touch-pan-y">
         <div id="cassetteBody" class="cassette-shell w-full rounded-2xl p-3 shadow-xl border-2 border-stone-700 relative overflow-hidden transition-colors duration-500">
           
           <div class="cassette-screws">
@@ -89,14 +95,14 @@
               <span class="text-[9px] text-stone-500">MIXTAPE</span>
             </div>
 
-            <!-- Título y Artista -->
+            <!-- Título y Artista (Exacto como en la captura) -->
             <div class="text-center px-1">
-              <div id="songTitle" class="font-kalam font-bold text-lg text-stone-900 leading-tight truncate">Cargando...</div>
-              <div id="songArtist" class="font-hand text-sm text-stone-700 truncate">Artista</div>
+              <div id="songTitle" class="font-patrick font-bold text-[26px] text-stone-900 leading-tight tracking-tight truncate">Sunflower</div>
+              <div id="songArtist" class="font-patrick text-[18px] text-stone-700 leading-none truncate mt-0.5">Harry Styles</div>
             </div>
 
             <!-- Bobinas y engranajes -->
-            <div class="mt-2 bg-stone-900/90 rounded-md p-1.5 flex items-center justify-around border-2 border-stone-700 relative shadow-inner">
+            <div class="mt-2.5 bg-stone-900/90 rounded-md p-1.5 flex items-center justify-around border-2 border-stone-700 relative shadow-inner">
               
               <div class="w-8 h-8 rounded-full bg-white border border-stone-400 flex items-center justify-center relative shadow">
                 <div class="tape-gear w-6 h-6 rounded-full border border-dashed border-stone-600 flex items-center justify-center">
@@ -118,7 +124,7 @@
             </div>
 
             <!-- Barra de progreso -->
-            <div class="w-full bg-stone-300/80 rounded-full h-1 mt-2 overflow-hidden">
+            <div class="w-full bg-stone-300/80 rounded-full h-1 mt-2.5 overflow-hidden">
               <div id="progressBar" class="bg-stone-700 h-full w-0 transition-all duration-200"></div>
             </div>
 
@@ -132,13 +138,13 @@
       <div id="carouselDots" class="flex items-center justify-center gap-1.5 mt-3"></div>
     </section>
 
-    <!-- 3. DEDICATORIA (Con font Architects Daughter y sin firmas) -->
+    <!-- 3. DEDICATORIA (Con tipografía Plus Jakarta Sans) -->
     <section class="w-full relative px-2">
       <div class="washi washi-green -top-2 left-6"></div>
       <div class="washi washi-peach -bottom-2 right-6"></div>
 
       <div class="note-grid p-5 py-6 rounded-sm shadow-md border border-stone-200/80 rotate-[-0.5deg]">
-        <p id="noteText" class="font-architects text-[15px] sm:text-base text-stone-800 leading-relaxed text-center min-h-[60px] flex items-center justify-center">
+        <p id="noteText" class="font-jakarta text-[14px] sm:text-[15px] text-stone-700 font-normal leading-relaxed text-center min-h-[58px] flex items-center justify-center tracking-normal">
           Cargando tu nota...
         </p>
       </div>
