@@ -52,7 +52,7 @@
   background-size: 16px 16px;
 }
 
-/* Cassette original estilo ilustración plana con sombra natural */
+/* Cassette original estilo ilustración */
 .cassette-shell {
   box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.18), 0 6px 8px -6px rgba(0, 0, 0, 0.1);
 }
@@ -85,17 +85,19 @@
   left: 0;
   right: 0;
   height: 0;
-  border-left: 54px solid transparent;
-  border-right: 54px solid transparent;
-  border-top: 36px solid #e5d8cb;
-  transform-origin: top;
-  transition: transform 0.5s ease;
+  border-left: 46px solid transparent;
+  border-right: 46px solid transparent;
+  border-top: 30px solid #e2d4c5;
 }
 
-/* Inputs de clave */
+/* Inputs del PIN contenidos estrictamente */
 .pin-digit {
-  width: 32px;
-  height: 42px;
+  width: 36px !important;
+  max-width: 36px !important;
+  min-width: 36px !important;
+  height: 44px !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
   border: 1.5px solid #D6D3D1;
   background-color: #FFFFFF;
   border-radius: 6px;
