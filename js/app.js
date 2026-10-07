@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const swipeArea = document.getElementById("swipeArea");
   
   const noteText = document.getElementById("noteText");
-  const noteSign = document.getElementById("noteSign");
   const songTitle = document.getElementById("songTitle");
   const songArtist = document.getElementById("songArtist");
   const songLyrics = document.getElementById("songLyrics");
@@ -21,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
 
-  // Crear los 12 puntos del carrusel tipo Instagram
+  // Crear los 12 puntos tipo Instagram
   function initDots() {
     carouselDotsContainer.innerHTML = "";
     cassetteCollection.forEach((_, idx) => {
@@ -45,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Leer parámetro ?track=X de la URL (para cada NFC)
+  // Leer parámetro ?track=X
   const urlParams = new URLSearchParams(window.location.search);
   const trackParam = parseInt(urlParams.get("track"), 10);
   if (!isNaN(trackParam) && trackParam >= 1 && trackParam <= cassetteCollection.length) {
@@ -57,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const track = cassetteCollection[index];
     if (!track) return;
 
-    // Pausar si estaba sonando
+    // Pausar si estaba reproduciendo
     audioPlayer.pause();
     isPlaying = false;
     cassetteBody.classList.remove("spinning");
@@ -66,17 +65,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Contenido
     noteText.textContent = track.note;
-    noteSign.textContent = track.signature;
     songTitle.textContent = track.title;
     songArtist.textContent = track.artist;
     songLyrics.textContent = `"${track.lyrics}"`;
     spotifyLink.href = track.spotifyUrl;
 
-    // Colores pasteles armónicos
+    // Colores
     cassetteBody.style.backgroundColor = track.colors.shell;
     cassetteLabel.style.backgroundColor = track.colors.label;
 
-    // Asignar archivo de audio
+    // Audio
     audioPlayer.src = track.audioUrl;
 
     updateDots();
@@ -117,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
     statusDot.className = "absolute w-1.5 h-1.5 rounded-full bg-stone-400";
   });
 
-  // Tocar cassette para reproducir
+  // Evento clic en cassette
   swipeArea.addEventListener("click", togglePlay);
 
   // Navegación
@@ -134,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
   nextBtn.addEventListener("click", nextTrack);
   prevBtn.addEventListener("click", prevTrack);
 
-  // Animación de deslizamiento
+  // Animación de cambio
   function animateTransition(direction, callback) {
     const offset = direction === "left" ? "-30px" : "30px";
     swipeArea.style.transform = `translateX(${offset}) scale(0.96)`;
@@ -150,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 120);
   }
 
-  // Gestos táctiles Swipe
+  // Soporte para gestos táctiles Swipe en móvil
   let touchStartX = 0;
   let touchEndX = 0;
 
@@ -174,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Inicializar
+  // Inicialización
   initDots();
   loadTrack(currentIndex);
 });
