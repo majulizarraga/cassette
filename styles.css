@@ -52,31 +52,9 @@
   background-size: 16px 16px;
 }
 
-/* =========================================
-   CASSETTE EN PERSPECTIVA 3D
-========================================= */
-.cassette-perspective {
-  perspective: 1000px;
-}
-
-.cassette-3d-wrap {
-  transform-style: preserve-3d;
-  transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-}
-
-.cassette-shell-3d {
-  transform: rotateX(8deg) rotateY(-3deg);
-  border: 2px solid #332f2c;
-  /* Sombra multicapa para volumen y grosor real de plástico */
-  box-shadow: 
-    0 1px 0 rgba(255,255,255,0.4) inset,
-    -3px 4px 0 #282421,
-    -5px 8px 0 #1b1816,
-    -8px 14px 18px rgba(0,0,0,0.28);
-}
-
-.cassette-shell-3d:active {
-  transform: rotateX(2deg) rotateY(-1deg) scale(0.99);
+/* Cassette original estilo ilustración plana con sombra natural */
+.cassette-shell {
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.18), 0 6px 8px -6px rgba(0, 0, 0, 0.1);
 }
 
 .screw {
