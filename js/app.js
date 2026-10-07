@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (currentPin.length === 6) {
       if (currentPin === SECRET_PIN) {
-        // Correcto: desbloquear
         pinFeedback.textContent = "";
         lockOverlay.style.opacity = "0";
         lockOverlay.style.pointerEvents = "none";
@@ -51,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
           lockOverlay.classList.add("hidden");
         }, 700);
       } else {
-        // Error
         handlePinError();
       }
     }
@@ -63,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
       errorCount++;
       clearPinInputs();
     } else {
-      // Bloqueo final
       isLockedOut = true;
       pinFeedback.textContent = "error:'(";
       pinInputs.forEach(inp => {
@@ -81,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================================
-  // LOGICA DEL CASSETTE Y AUDIO
+  // CASSETTE & AUDIO
   // =========================================
   let currentIndex = 0;
   let isPlaying = false;
@@ -226,7 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
   nextBtn.addEventListener("click", nextTrack);
   prevBtn.addEventListener("click", prevTrack);
 
-  // Gestos táctiles Swipe
+  // Gesto táctil Swipe
   let startX = 0;
   let currentX = 0;
   let isDragging = false;
