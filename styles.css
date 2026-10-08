@@ -43,7 +43,7 @@
 .washi-green { background-color: #B8D5C8; transform: rotate(4deg); }
 .washi-lavender { background-color: #D6C7E2; }
 
-/* Papel cuadriculado para dedicatoria */
+/* Papel cuadriculado */
 .note-grid {
   background-color: #FFFFFF;
   background-image: 
@@ -52,7 +52,42 @@
   background-size: 16px 16px;
 }
 
-/* Cassette original estilo ilustración */
+/* =========================================
+   VOLTEAR CASSETTE EN 3D (LADO A / LADO B)
+========================================= */
+.cassette-flip-scene {
+  perspective: 1000px;
+}
+
+.cassette-card-inner {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.cassette-card-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.cassette-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.cassette-front {
+  position: relative;
+  z-index: 2;
+}
+
+.cassette-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: rotateY(180deg);
+}
+
 .cassette-shell {
   box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.18), 0 6px 8px -6px rgba(0, 0, 0, 0.1);
 }
@@ -68,7 +103,69 @@
 }
 
 /* =========================================
-   PANTALLA DE BLOQUEO / CARTA FLOTANTE
+   GIRO REAL DE LOS CÍRCULOS BLANCOS (BOBINAS)
+========================================= */
+@keyframes spinBobina {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Al reproducir, ambos círculos giran */
+.spinning .tape-wheel {
+  animation: spinBobina 2s linear infinite;
+}
+
+/* =========================================
+   BOTONES CASSETTE PLAYER (DECK CONTROLS)
+========================================= */
+.player-deck {
+  background: linear-gradient(180deg, #E7E5E4 0%, #D6D3D1 100%);
+}
+
+.deck-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 36px;
+  background: #FAFAF9;
+  color: #44403C;
+  border: 1.5px solid #A8A29E;
+  border-radius: 6px;
+  box-shadow: 0 3px 0 #78716C, 0 4px 5px rgba(0,0,0,0.15);
+  transition: all 0.1s ease;
+  cursor: pointer;
+}
+
+.deck-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #78716C, 0 2px 3px rgba(0,0,0,0.1);
+}
+
+.deck-btn-main {
+  width: 54px;
+  height: 38px;
+  background: #FFFFFF;
+  color: #1C1917;
+}
+
+/* Puntos de carrusel */
+.carousel-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #D6D3D1;
+  transition: all 0.28s ease;
+}
+
+.carousel-dot.active {
+  width: 8px;
+  height: 8px;
+  background-color: #57534E;
+}
+
+/* =========================================
+   PANTALLA DE BLOQUEO / PIN
 ========================================= */
 @keyframes floatLetter {
   0%, 100% { transform: translateY(0px) rotate(-1deg); }
@@ -90,7 +187,6 @@
   border-top: 30px solid #e2d4c5;
 }
 
-/* Inputs del PIN contenidos estrictamente */
 .pin-digit {
   width: 36px !important;
   max-width: 36px !important;
@@ -119,34 +215,4 @@
   background-color: #F5F5F4;
   color: #A8A29E;
   border-color: #E7E5E4;
-}
-
-/* Puntos de carrusel */
-.carousel-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #D6D3D1;
-  transition: all 0.28s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.carousel-dot.active {
-  width: 8px;
-  height: 8px;
-  background-color: #57534E;
-}
-
-/* Animación elástica de pase */
-.apple-spring {
-  transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.15), opacity 0.35s ease;
-}
-
-/* Rotación de bobinas */
-@keyframes spinGear {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.spinning .tape-gear {
-  animation: spinGear 2s linear infinite;
 }
