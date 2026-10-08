@@ -78,27 +78,37 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================================
-  // CASSETTE & AUDIO
+  // CASSETTE, AUDIO Y VOLTEO (LADO A / LADO B)
   // =========================================
   let currentIndex = 0;
   let isPlaying = false;
+  let isFlipped = false;
 
   const audioPlayer = document.getElementById("audioPlayer");
+  const cassetteCard = document.getElementById("cassetteCard");
   const cassetteBody = document.getElementById("cassetteBody");
   const cassetteLabel = document.getElementById("cassetteLabel");
+  const cassetteBodyB = document.getElementById("cassetteBodyB");
+  const cassetteLabelB = document.getElementById("cassetteLabelB");
   const swipeArea = document.getElementById("swipeArea");
   
   const noteText = document.getElementById("noteText");
   const songTitle = document.getElementById("songTitle");
   const songArtist = document.getElementById("songArtist");
+  const songTitleB = document.getElementById("songTitleB");
   const songLyrics = document.getElementById("songLyrics");
   const spotifyLink = document.getElementById("spotifyLink");
   const progressBar = document.getElementById("progressBar");
+  const progressBarB = document.getElementById("progressBarB");
   const statusDot = document.getElementById("statusDot");
   const carouselDotsContainer = document.getElementById("carouselDots");
 
-  const prevBtn = document.getElementById("prevBtn");
-  const nextBtn = document.getElementById("nextBtn");
+  // Botonera de reproducción
+  const playerPrevBtn = document.getElementById("playerPrevBtn");
+  const playerPlayBtn = document.getElementById("playerPlayBtn");
+  const playerNextBtn = document.getElementById("playerNextBtn");
+  const playIcon = document.getElementById("playIcon");
+  const pauseIcon = document.getElementById("pauseIcon");
 
   function initDots() {
     carouselDotsContainer.innerHTML = "";
@@ -108,9 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
       dot.setAttribute("aria-label", `Pista ${idx + 1}`);
       dot.addEventListener("click", () => {
         if (idx !== currentIndex) {
-          const dir = idx > currentIndex ? "left" : "right";
           currentIndex = idx;
-          appleTransition(dir, () => loadTrack(currentIndex));
+          loadTrack(currentIndex);
         }
       });
       carouselDotsContainer.appendChild(dot);
@@ -136,22 +145,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
     audioPlayer.pause();
     isPlaying = false;
-    cassetteBody.classList.remove("spinning");
-    progressBar.style.width = "0%";
-    statusDot.className = "absolute w-1.5 h-1.5 rounded-full bg-stone-400";
+    updatePlayUI(false);
 
+    // Contenido
     noteText.textContent = track.note;
     songTitle.textContent = track.title;
+    songTitleB.textContent = track.title;
     songArtist.textContent = track.artist;
     songLyrics.textContent = `"${track.lyrics}"`;
     spotifyLink.href = track.spotifyUrl;
 
+    // Colores LADO A y LADO B
     cassetteBody.style.backgroundColor = track.colors.shell;
     cassetteLabel.style.backgroundColor = track.colors.label;
+    cassetteBodyB.style.backgroundColor = track.colors.shell;
+    cassetteLabelB.style.backgroundColor = track.colors.label;
 
     audioPlayer.src = track.audioUrl;
+    progressBar.style.width = "0%";
+    progressBarB.style.width = "0%";
 
     updateDots();
+  }
+
+  function updatePlayUI(playing) {
+    if (playing) {
+      cassetteCard.classList.add("spinning");
+      playIcon.classList.add("hidden");
+      pauseIcon.classList.remove("hidden");
+      statusDot.className = "absolute w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse";
+    } else {
+      cassetteCard.classList.remove("spinning");
+      playIcon.classList.remove("hidden");
+      pauseIcon.classList.add("hidden");
+      statusDot.className = "absolute w-1.5 h-1.5 rounded-full bg-stone-400";
+    }
   }
 
   function togglePlay() {
@@ -160,117 +188,104 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isPlaying) {
       audioPlayer.pause();
       isPlaying = false;
-      cassetteBody.classList.remove("spinning");
-      statusDot.className = "absolute w-1.5 h-1.5 rounded-full bg-stone-400";
+      updatePlayUI(false);
     } else {
       audioPlayer.play().then(() => {
         isPlaying = true;
-        cassetteBody.classList.add("spinning");
-        statusDot.className = "absolute w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse";
+        updatePlayUI(true);
       }).catch(err => {
         console.warn("Autoplay prevenido o archivo no encontrado:", err);
       });
     }
   }
 
+  playerPlayBtn.addEventListener("click", togglePlay);
+
   audioPlayer.addEventListener("timeupdate", () => {
     if (audioPlayer.duration) {
       const pct = (audioPlayer.currentTime / audioPlayer.duration) * 100;
       progressBar.style.width = `${pct}%`;
+      progressBarB.style.width = `${pct}%`;
     }
   });
 
   audioPlayer.addEventListener("ended", () => {
     isPlaying = false;
-    cassetteBody.classList.remove("spinning");
+    updatePlayUI(false);
     progressBar.style.width = "0%";
-    statusDot.className = "absolute w-1.5 h-1.5 rounded-full bg-stone-400";
+    progressBarB.style.width = "0%";
   });
 
-  function appleTransition(direction, callback) {
-    swipeArea.classList.add("apple-spring");
-    const exitX = direction === "left" ? -120 : 120;
-    const rotate = direction === "left" ? -5 : 5;
-    
-    swipeArea.style.transform = `translateX(${exitX}px) rotate(${rotate}deg) scale(0.92)`;
-    swipeArea.style.opacity = "0";
-
-    setTimeout(() => {
-      callback();
-      swipeArea.classList.remove("apple-spring");
-      const enterX = direction === "left" ? 100 : -100;
-      swipeArea.style.transform = `translateX(${enterX}px) rotate(${-rotate}deg) scale(0.94)`;
-      swipeArea.style.opacity = "0";
-
-      requestAnimationFrame(() => {
-        swipeArea.classList.add("apple-spring");
-        swipeArea.style.transform = "translateX(0) rotate(0deg) scale(1)";
-        swipeArea.style.opacity = "1";
-      });
-    }, 180);
+  // =========================================
+  // VOLTEAR EL CASSETTE AL DAR CLICK
+  // =========================================
+  function toggleFlip() {
+    isFlipped = !isFlipped;
+    if (isFlipped) {
+      cassetteCard.classList.add("is-flipped");
+    } else {
+      cassetteCard.classList.remove("is-flipped");
+    }
   }
 
+  // =========================================
+  // NAVEGACIÓN Y SWIPE SIN ANIMACIONES BRUSCAS
+  // =========================================
   function nextTrack() {
     currentIndex = (currentIndex + 1) % cassetteCollection.length;
-    appleTransition("left", () => loadTrack(currentIndex));
+    loadTrack(currentIndex);
   }
 
   function prevTrack() {
     currentIndex = (currentIndex - 1 + cassetteCollection.length) % cassetteCollection.length;
-    appleTransition("right", () => loadTrack(currentIndex));
+    loadTrack(currentIndex);
   }
 
-  nextBtn.addEventListener("click", nextTrack);
-  prevBtn.addEventListener("click", prevTrack);
+  playerNextBtn.addEventListener("click", nextTrack);
+  playerPrevBtn.addEventListener("click", prevTrack);
 
-  // Gesto táctil Swipe
-  let startX = 0;
-  let currentX = 0;
-  let isDragging = false;
+  // Soporte Swipe táctil limpio + clic para voltear
+  let touchStartX = 0;
+  let touchEndX = 0;
+  let touchMoved = false;
 
   swipeArea.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-    currentX = startX;
-    isDragging = true;
-    swipeArea.classList.remove("apple-spring");
+    touchStartX = e.touches[0].clientX;
+    touchEndX = touchStartX;
+    touchMoved = false;
   }, { passive: true });
 
   swipeArea.addEventListener("touchmove", (e) => {
-    if (!isDragging) return;
-    currentX = e.touches[0].clientX;
-    const deltaX = currentX - startX;
-    const rotate = deltaX * 0.04;
-    swipeArea.style.transform = `translateX(${deltaX * 0.75}px) rotate(${rotate}deg) scale(${1 - Math.abs(deltaX) * 0.0004})`;
+    touchEndX = e.touches[0].clientX;
+    if (Math.abs(touchEndX - touchStartX) > 10) {
+      touchMoved = true;
+    }
   }, { passive: true });
 
   swipeArea.addEventListener("touchend", () => {
-    if (!isDragging) return;
-    isDragging = false;
-    const deltaX = currentX - startX;
+    const diff = touchEndX - touchStartX;
 
-    if (Math.abs(deltaX) < 8) {
-      swipeArea.classList.add("apple-spring");
-      swipeArea.style.transform = "translateX(0) rotate(0deg) scale(1)";
-      togglePlay();
-      return;
-    }
-
-    if (deltaX < -50) {
-      nextTrack();
-    } else if (deltaX > 50) {
-      prevTrack();
-    } else {
-      swipeArea.classList.add("apple-spring");
-      swipeArea.style.transform = "translateX(0) rotate(0deg) scale(1)";
+    // Si se deslizó con el dedo más de 45px, cambia de canción directamente sin animación
+    if (touchMoved && Math.abs(diff) > 45) {
+      if (diff < 0) {
+        nextTrack();
+      } else {
+        prevTrack();
+      }
+    } else if (!touchMoved) {
+      // Si fue solo un tap (sin deslizar), dar vuelta al cassette
+      toggleFlip();
     }
   });
 
+  // Clic en computadoras de escritorio para voltear
   swipeArea.addEventListener("click", () => {
     if (!('ontouchstart' in window)) {
-      togglePlay();
+      toggleFlip();
     }
   });
 
+  // Inicializar
   initDots();
   loadTrack(currentIndex);
 });
